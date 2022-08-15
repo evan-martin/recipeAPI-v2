@@ -86,7 +86,6 @@ app.put("/api/recipes/update", checkJwt, (req, response) => {
 
 //delete recipe
 app.delete("/api/recipes/delete", checkJwt, (req, response) => {
-  console.log(req.headers.recipe)
   Recipe.findOneAndUpdate({ email: req.headers.user, 'recipes._id': req.headers.recipe },
     {
       $pull: { recipes: {'_id': req.headers.recipe }}
