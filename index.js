@@ -12,11 +12,11 @@ const app = express()
 
 dotenv.config({ path: './.env' })
 const port = process.env.PORT || 3001
-const db = process.env.DB
-const domain = process.env.DOMAIN
-const clientId = process.env.CLIIENTID
-const audience = process.env.AUDIENCE
-const appOrigin = process.env.APPORIGIN
+const db = (process.env.DB)
+const domain = (process.env.DOMAIN)
+const clientId = (process.env.CLIIENTID)
+const audience = (process.env.AUDIENCE)
+const appOrigin = (process.env.APPORIGIN)
 
 
 app.use(cors())
