@@ -1,37 +1,43 @@
-const express = require("express");
-const cors = require("cors");
-const morgan = require("morgan");
-const helmet = require("helmet");
-const { expressjwt: jwt } = require("express-jwt");
-const jwksRsa = require("jwks-rsa");
+const express = require("express")
+const cors = require("cors")
+const morgan = require("morgan")
+const helmet = require("helmet")
+const { expressjwt: jwt } = require("express-jwt")
+const jwksRsa = require("jwks-rsa")
 const Recipe = require('./recipe.schema.js')
 const mongoose = require('mongoose')
-const dotenv = require('dotenv');
+const dotenv = require('dotenv')
 const bp = require('body-parser')
+const app = express()
 
-const port = process.env.PORT || 3001;
+dotenv.config({ path: './.env' })
+const port = process.env.PORT || 3001
+const db = process.env.DB
+const domain = process.env.DOMAIN
+const clientId = process.env.CLIIENTID
+const audience = process.env.AUDIENCE
+const appOrigin = process.env.APPORIGIN
 
-const app = express();
 
 app.use(cors())
-app.use(morgan("dev"));
-app.use(helmet());
-app.use(cors({ origin: process.env.APPORIGIN }));
+app.use(morgan("dev"))
+app.use(helmet())
+app.use(cors({ origin: appOrigin }))
 app.use(bp.json())
 app.use(bp.urlencoded({ extended: true }))
 
-dotenv.config({ path: './.env' });
+
 
 const checkJwt = jwt({
   secret: jwksRsa.expressJwtSecret({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: `https://${process.env.DOMAIN}/.well-known/jwks.json`,
+    jwksUri: `https://${domain}/.well-known/jwks.json`,
   }),
 
-  audience: process.env.AUDIENCE,
-  issuer: `https://${process.env.DOMAIN}/`,
+  audience: audience,
+  issuer: `https://${domain}/`,
   algorithms: ["RS256"],
 });
 
@@ -81,7 +87,7 @@ app.delete("/api/recipes/delete", checkJwt, (req, response) => {
     })
 });
 
-mongoose.connect(process.env.DB, {
+mongoose.connect(db, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
