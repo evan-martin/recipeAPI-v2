@@ -9,6 +9,7 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const bp = require('body-parser')
 const app = express()
+const defaultRecipes = require('./default-recipes.json')
 
 dotenv.config({ path: './.env' })
 const port = process.env.PORT || 3001
@@ -18,15 +19,12 @@ const clientId = (process.env.CLIIENTID)
 const audience = (process.env.AUDIENCE)
 const appOrigin = (process.env.APPORIGIN)
 
-
 app.use(cors())
 app.use(morgan("dev"))
 app.use(helmet())
 app.use(cors({ origin: appOrigin }))
 app.use(bp.json())
 app.use(bp.urlencoded({ extended: true }))
-
-
 
 const checkJwt = jwt({
   secret: jwksRsa.expressJwtSecret({
@@ -79,7 +77,7 @@ app.put("/api/recipes/update", checkJwt, (req, response) => {
 app.delete("/api/recipes/delete", checkJwt, (req, response) => {
   Recipe.findOneAndUpdate({ email: req.headers.user, 'recipes._id': req.headers.recipe },
     {
-      $pull: { recipes: {'_id': req.headers.recipe }}
+      $pull: { recipes: { '_id': req.headers.recipe } }
 
     }, (err, result) => {
       if (err) console.log(err)
@@ -87,8 +85,15 @@ app.delete("/api/recipes/delete", checkJwt, (req, response) => {
     })
 });
 
+//new user
 app.post("/api/recipes/new-user", checkJwt, (req, response) => {
-  console.log(req.body)
+  Recipe.create({
+    email: req.body.email,
+    recipes: defaultRecipes,
+  }, (err, result) => {
+    if (err) console.log(err)
+    response.send(result)
+  })
 });
 
 mongoose.connect(db, {

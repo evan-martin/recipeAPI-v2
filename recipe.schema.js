@@ -1,7 +1,6 @@
 var mongoose = require('mongoose')
 
 var RecipeSchema = new mongoose.Schema({
-    name: String,
     email: String,
     recipes: [{
         name: String,
