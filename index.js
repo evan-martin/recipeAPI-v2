@@ -87,6 +87,11 @@ app.delete("/api/recipes/delete", checkJwt, (req, response) => {
     })
 });
 
+app.post("/api/recipes/new-user", (req, response) => {
+  console.log(req.body)
+  response.send("new user hit")
+});
+
 mongoose.connect(db, {
   useNewUrlParser: true,
   useUnifiedTopology: true
