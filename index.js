@@ -98,10 +98,9 @@ app.post("/api/recipes/new-user", checkJwt, (req, response) => {
 
 //update shopping list:
 app.put("/api/recipes/update-shopping-list", checkJwt, (req, response) => {
-  console.log(req.body.shoppingList)
   Recipe.findOneAndUpdate({ email: req.headers.user },
     {
-      shoppingList: req.body.shoppingList
+      $set: { shoppingList: req.body.shoppingList }
     }, (err, result) => {
       if (err) console.log(err)
       console.log(result)
