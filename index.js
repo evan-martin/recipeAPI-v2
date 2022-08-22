@@ -89,6 +89,7 @@ app.post("/api/recipes/new-user", checkJwt, (req, response) => {
   Recipe.create({
     email: req.body.email,
     recipes: defaultRecipes,
+    shoppingList: [],
   }, (err, result) => {
     if (err) console.log(err)
     response.send(result)
@@ -97,6 +98,7 @@ app.post("/api/recipes/new-user", checkJwt, (req, response) => {
 
 //update shopping list:
 app.put("/api/recipes/update-shopping-list", checkJwt, (req, response) => {
+  console.log(req.body.shoppingList)
   Recipe.findOneAndUpdate({ email: req.headers.user },
     {
       shoppingList: req.body.shoppingList
