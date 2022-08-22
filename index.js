@@ -15,7 +15,6 @@ dotenv.config({ path: './.env' })
 const port = process.env.PORT || 3001
 const db = (process.env.DB)
 const domain = (process.env.DOMAIN)
-const clientId = (process.env.CLIIENTID)
 const audience = (process.env.AUDIENCE)
 const appOrigin = (process.env.APPORIGIN)
 
@@ -94,6 +93,18 @@ app.post("/api/recipes/new-user", checkJwt, (req, response) => {
     if (err) console.log(err)
     response.send(result)
   })
+});
+
+//update shopping list:
+app.put("/api/recipes/update-shopping-list", checkJwt, (req, response) => {
+  Recipe.findOneAndUpdate({ email: req.headers.user },
+    {
+      shoppingList: req.body.shoppingList
+    }, (err, result) => {
+      if (err) console.log(err)
+      console.log(result)
+      response.send({ result })
+    })
 });
 
 mongoose.connect(db, {
