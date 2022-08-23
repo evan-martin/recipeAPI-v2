@@ -10,7 +10,7 @@ var RecipeSchema = new mongoose.Schema({
     notes: String,
     tags: Array,
   }],
-  shoppinglist: Array
+  shoppingList: Array
 
 }, { collection: 'test' })
 
