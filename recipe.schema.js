@@ -8,7 +8,7 @@ var RecipeSchema = new mongoose.Schema({
     ingredients: String,
     method: String,
     notes: String,
-    tags: Array,
+    tags: String,
   }],
   shoppingList: Array
 
