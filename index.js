@@ -16,12 +16,13 @@ const port = process.env.PORT || 3001
 const db = (process.env.DB)
 const domain = (process.env.DOMAIN)
 const audience = (process.env.AUDIENCE)
-const appOrigin = (process.env.APPORIGIN || process.env.LOCAL_HOST)
+const appOrigin = (process.env.APPORIGIN)
+const localOrigin = (process.env.LOCAL_HOST)
 
 app.use(cors())
 app.use(morgan("dev"))
 app.use(helmet())
-app.use(cors({ origin: appOrigin }))
+app.use(cors({ origin: [appOrigin, localOrigin] }))
 app.use(bp.json())
 app.use(bp.urlencoded({ extended: true }))
 
