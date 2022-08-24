@@ -16,7 +16,7 @@ const port = process.env.PORT || 3001
 const db = (process.env.DB)
 const domain = (process.env.DOMAIN)
 const audience = (process.env.AUDIENCE)
-const appOrigin = (process.env.APPORIGIN)
+const appOrigin = (process.env.APPORIGIN || process.env.LOCAL_HOST)
 
 app.use(cors())
 app.use(morgan("dev"))
